@@ -7,6 +7,7 @@
 #include <iterator>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Vector3.h>
+#include <std_msgs/Int8.h>
 #include "auto_flight/ncrl_link.h"
 
 #include "mission.h"
