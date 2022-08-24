@@ -11,8 +11,10 @@ note : You may need to change USB port in [main.cpp](src/main.cpp)
 
 ## test code
 ```bash=
-$ rosrun auto_flight controller
+$ rosrun auto_flight mission
 ```
+
+note : This command will demo a simple auto flight task
 
 ## format 
 

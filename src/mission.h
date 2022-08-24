@@ -2,8 +2,8 @@
 #define __MISSION__
 
 using namespace std;
-#define TARGET_THRESHOLD 0.05f 
-#define TAKEOFF_HEIGHT 0.6f
+#define WAYPOINT_THRESHOLD 0.05f 
+#define TAKEOFF_HEIGHT 0.8f
 #define LANDING_HEIGHT 0.2f
 
 class MISSION{
@@ -44,7 +44,11 @@ MISSION::MISSION(){
 	mission_data.data2 = 0.0;
 	mission_data.data3 = 0.0;	
 
-    /* test */
+    /* If you want to add waypoint you can edit here */
+    /* mission_insert( string mode, string aux_info, */
+    /*      \  float data1,float data2, float data3) */
+    /* Please check readme.md           */
+
     mission_insert("0", "0", 0.0, 0.0, 0.0);
     mission_insert("1", "0", 0.0, 0.0, 0.0);
     mission_insert("2", "0", 1.0, 1.0, 0.0);
@@ -77,20 +81,20 @@ bool MISSION::mission_switch(){
     string mode = mission_list[cur_task].mode;
 
     if(mode == "1"){
-        if ( abs(cur_pos_z-TAKEOFF_HEIGHT) <=0.1){
+        if ( abs(cur_pos_z-TAKEOFF_HEIGHT) <= WAYPOINT_THRESHOLD){
             return true;
         }else{
             return false;
         }
     }else if(mode == "2"){
-        if ( abs(cur_pos_x-cur_target_x) <=TARGET_THRESHOLD && 
-                abs(cur_pos_y-cur_target_y) <=TARGET_THRESHOLD){
+        if ( abs(cur_pos_x-cur_target_x) <= WAYPOINT_THRESHOLD && 
+                abs(cur_pos_y-cur_target_y) <= WAYPOINT_THRESHOLD){
             return true;
         }else{
             return false;
         }
     }else if(mode == "3"){
-        if ( cur_pos_z<TAKEOFF_HEIGHT ){
+        if ( cur_pos_z < LANDING_HEIGHT ){
             return true;
         }else{
             return false;
@@ -116,7 +120,7 @@ void MISSION::process(){
     cout << " cur_task : " << cur_task <<endl;
     cout << " === " << endl;
     if(mission_switch()==true && cur_task!=final_task){
-        if(cur_task!=final_task-1){
+        if(cur_task!=final_task-1){ // If this mission is not the last one.
             cur_task +=1 ;
             mission_data.mode = mission_list[cur_task].mode;
             mission_data.aux_info = mission_list[cur_task].aux_info;
