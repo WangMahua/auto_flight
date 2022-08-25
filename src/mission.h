@@ -2,7 +2,8 @@
 #define __MISSION__
 
 using namespace std;
-#define WAYPOINT_THRESHOLD 0.05f 
+#define WAYPOINT_THRESHOLD 0.1f
+#define TAKEOFF_THRESHOLD 0.1f  
 #define TAKEOFF_HEIGHT 0.8f
 #define LANDING_HEIGHT 0.2f
 
@@ -81,7 +82,7 @@ bool MISSION::mission_switch(){
     string mode = mission_list[cur_task].mode;
 
     if(mode == "1"){
-        if ( abs(cur_pos_z-TAKEOFF_HEIGHT) <= WAYPOINT_THRESHOLD){
+        if ( cur_pos_z > TAKEOFF_HEIGHT){
             return true;
         }else{
             return false;
@@ -118,6 +119,7 @@ void MISSION::mission_insert(string m, string a, float d1,float d2, float d3){
 
 void MISSION::process(){
     cout << " cur_task : " << cur_task <<endl;
+    cout << " final_task : " << final_task <<endl;
     cout << " === " << endl;
     if(mission_switch()==true && cur_task!=final_task){
         if(cur_task!=final_task-1){ // If this mission is not the last one.
