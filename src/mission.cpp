@@ -15,7 +15,7 @@
 int main(int argc ,char **argv){
     ros::init(argc,argv,"mission");
     MISSION mission;
-    ros::Rate loop_rate(200);
+    ros::Rate loop_rate(20);
 
     while(ros::ok()){
         mission.process();

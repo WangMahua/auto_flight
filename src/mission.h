@@ -2,7 +2,7 @@
 #define __MISSION__
 
 using namespace std;
-#define WAYPOINT_THRESHOLD 0.05f 
+#define WAYPOINT_THRESHOLD 0.1f 
 #define TAKEOFF_HEIGHT 0.8f
 #define LANDING_HEIGHT 0.2f
 
@@ -23,8 +23,9 @@ private:
     int cur_task = 0;
     int final_task = 0;
     bool land_flag = false;
+    int mode_flag = 0;
 
-    bool hover = true;
+    bool hover = false;
 	bool hover_start_handler = false;
 	ros::Time hover_start_time = ros::Time::now();
 	ros::Time hover_cluster_time = ros::Time::now();
@@ -64,7 +65,6 @@ MISSION::MISSION(){
     /* Please check readme.md           */
 
     mission_insert("0", "0", 0.0, 0.0, 0.0);
-    mission_insert("1", "0", 0.0, 0.0, 0.0);
 }
 
 void MISSION::px4_callback(const auto_flight::ncrl_link::ConstPtr& msg){
@@ -79,7 +79,9 @@ void MISSION::pos_callback(const geometry_msgs::PoseStamped::ConstPtr& msg){
 
 void MISSION::web_phase_callback(const std_msgs::Int8::ConstPtr& msg){
     if (msg->data == 1){
-        land_flag = true;
+        mission_insert("1", "0", 0.0, 0.0, 0.0);
+    }else if(msg->data == 3){
+        mission_insert("3", "0", 0.0, 0.0, 0.0);
     }
 }
 
@@ -109,7 +111,7 @@ bool MISSION::mission_switch(){
     string mode = mission_list[cur_task].mode;
 
     if(mode == "1"){
-        if ( abs(cur_pos_z-TAKEOFF_HEIGHT) <= WAYPOINT_THRESHOLD){
+        if (cur_pos_z > TAKEOFF_HEIGHT){
             return true;
         }else{
             return false;
@@ -118,6 +120,7 @@ bool MISSION::mission_switch(){
         if ( abs(cur_pos_x-cur_target_x) <= WAYPOINT_THRESHOLD && 
                 abs(cur_pos_y-cur_target_y) <= WAYPOINT_THRESHOLD){
             cout << "finish" << endl;
+            
             if( hover == true ){ //for hover
                 if(hover_start_handler == false){
                     hover_start_time = ros::Time::now();
@@ -167,6 +170,8 @@ void MISSION::process(){
     cout << " cur_task : " << cur_task <<endl;
     cout << " final_task : " << final_task <<endl;
     cout << " === " << endl;
+
+
     if(cur_task!=final_task){
         if(mission_switch()==true && cur_task!=final_task-1){ // If this mission is not the last one.
             cur_task +=1 ;
@@ -182,10 +187,6 @@ void MISSION::process(){
         }
     }else{
         cout << "MISSION COMPLETE!" <<  endl;
-        if(land_flag){
-            mission_data.mode = 3; 
-        }
-
     }
     publisher();
     

@@ -51,10 +51,10 @@ int NCRL_LINK::ncrl_link_decode(uint8_t *buf){
 	/* swap the order of quaternion to make the frame consistent with ahrs' rotation order */
 	memcpy(&rx_data.data4, &buf[16], sizeof(float));
 
-	cout << "recieve data" << endl;
-	cout << rx_data.data1 << endl;
-	cout << rx_data.data2 << endl;
-	cout << rx_data.data3 << endl;
+	// cout << "recieve data" << endl;
+	// cout << rx_data.data1 << endl;
+	// cout << rx_data.data2 << endl;
+	// cout << rx_data.data3 << endl;
 
 	return 0;
 }
@@ -109,7 +109,7 @@ void callback(const auto_flight::ncrl_link::ConstPtr& msg){
 }
 
 int send_thread_entry(){
-   	ros::Rate loop_rate(400);
+   	ros::Rate loop_rate(20);
 	ros::NodeHandle nh;
 	ros::Subscriber sub;
 
