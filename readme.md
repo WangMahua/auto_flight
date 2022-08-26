@@ -13,12 +13,14 @@ note : You may need to change USB port in [main.cpp](src/main.cpp)
 ## GUI
 
 1. 
-    ```bash=
-    $ roslaunch rosbridge_server rosbridge_websocket.launch
-    ```
-2. click [GUI.html](web_gui/GUI.html) in /web_gui
 
-note : You can give instructions grom click buttom
+```bash=
+$ roslaunch rosbridge_server rosbridge_websocket.launch
+```
+2. 
+    click [GUI.html](web_gui/GUI.html) in /web_gui
+
+note : You can give instructions from click buttom
 
 ## format 
 
