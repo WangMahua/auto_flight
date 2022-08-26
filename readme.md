@@ -4,17 +4,21 @@
 
 ```bash=
 $ sudo chmod 777 /dev/ttyUSB* 
-$ rosrun auto_flight controller
+$ rosrun auto_flight controller 
+$ rosrun auto_flight mission
 ```
 
 note : You may need to change USB port in [main.cpp](src/main.cpp)
 
-## test code
-```bash=
-$ rosrun auto_flight mission
-```
+## GUI
 
-note : This command will demo a simple auto flight task
+1. 
+    ```bash=
+    $ roslaunch rosbridge_server rosbridge_websocket.launch
+    ```
+2. click [GUI.html](web_gui/GUI.html) in /web_gui
+
+note : You can give instructions grom click buttom
 
 ## format 
 
@@ -59,6 +63,7 @@ note : pos z can not control
 rostopic pub /pc_to_pixhawk auto_flight/ncrl_link "mode: '3', aux_info: '', data1: 0.0, data2: 0.0, data3: 0.0}"
 ```
 
+## reference 
 
-
+[gui reference](https://github.com/Andreew9504089/AprilTag_Localization/tree/master/src/single_page_gui)
 
