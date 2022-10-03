@@ -59,6 +59,14 @@ note : pos z can not control
 rostopic pub /pc_to_pixhawk auto_flight/ncrl_link "mode: '3', aux_info: '', data1: 0.0, data2: 0.0, data3: 0.0}"
 ```
 
+## trouble shooting
+
+- failed to make custom msg : couldn't find "auto_flight/ncrl_link.h"
+	add the following line to CMakeList :
+
+```cmake=
+add_dependencies(mission ${catkin_EXPORTED_TARGETS} {${PROJECT_NAME}_EXPORTED_TARGETS})
+```	
 
 
 
